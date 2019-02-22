@@ -1,7 +1,7 @@
 # 1) list of words = "words.txt"
 #     - read file
 #     - create dictionary
-#     - create value of length per key
+#     - create value of length per key = word in list of words
 #     - add value for length per key in dictionary
 # 2) Create Levels
 #     - Easy is key.value(length) = length > 4 and length < 6
@@ -100,24 +100,45 @@ else:
     print("Try again!")
 
 
-        
-
 # pulls list of words from dictionary that have values
 # listOfKeys = [key  for (key, value) in new_dictionary.items() if value == 9]
 listOfKeys = [key  for (key, value) in new_dictionary.items() if 4 < value < 6]
 
 random_word = random.choice(listOfKeys)
-print(random_word)
-print(level)
+print(f"'{random_word}' is the random word.")
 
 word = random_word
 
-guesses = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
-            "n", "o", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-[letter if letter in guesses else "_" for letter in word]
+def unique_chars(word):
+    """Given a string, get all the unique characters."""
+    seen_chars = []
+    for char in word:
+        seen_chars += (char)
+    return seen_chars
 
-current_guesses = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
-            "n", "o", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+random_word_string = unique_chars(word)
+
+print(f"this is your index to match: {random_word_string}")
+
+valid_letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                   "n", "o", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+
+letter = str(input("What letter would you like to use? "))
+if letter not in valid_letters:
+    print("Try again, and enter 1 letter!")
+else:
+    letter = letter.casefold()
+
+print(f"You picked letter {letter}!")
+print("Let's see if this matches any letter in the word.")
+
+guesses = letter
+
+print([letter if letter in guesses else "_" for letter in word])
+
+new_word = [letter if letter in guesses else "_" for letter in word]
+
+current_guesses = letter
 
 def display_letter(letter, guesses):
     """
@@ -131,9 +152,18 @@ def display_letter(letter, guesses):
 
 print([display_letter(letter, current_guesses) for letter in word])
 
+length_of_word = len(word)
+
+print(f"The word is {length_of_word} characters long.")
+
+total_limit = 8
+
+print(f"You have a total of {total_limit} times to guess.")
 
 
 
+# print(unique_chars(word))
+# print(random_word_string)
 # print(f"Your word is {listOfKeys} letters." )
 # print(dict_with_length(unique_words(file))
 # print(new_dictionary.items())

@@ -10,8 +10,7 @@ def unique_chars(word):
 random_word_string = unique_chars(word)
 guesses = ["G", "E", "T"]
 
-[letter if letter in guesses else "_" 
-for letter in random_word_string]
+[letter if letter in guesses else "_" for letter in random_word_string]
 
 print(unique_chars(word))
 print(random_word_string)
