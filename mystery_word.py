@@ -8,13 +8,14 @@
 #     - Normal is key.value(length) = length > 6 and length < 8
 #     - Hard is key.value(length) = length > 8
 #     - Based on these levels add level value to dictionary for words
+#     - add level to dictionary
 # 3) Message saying, "Welcome to Mystery Word! My name is Jarvis and I will be selecting a random word for you to guess. You will have a total of 8 guesses. If you do not guess within 8 guesses, the round will be over and you have a chance to try another random word, or quit the game. Now that we are ready to start, I need you to pick the level. Easy, Normal or Hard. Which level would you like to play?"
 # 4) User enters the level.
 #     - The game will need to store the level during the following steps at the beginning of each round
 #     - it will need to return the level for the next function
 # 5) Based on level selected the system can then filter keys with values of level.
 #     - will need to return new list for random picker
-# 6) based on that list, the function random_word can run. 
+# 6) based on that list or random word, the function random_word can run. 
 #     - will need to return random word with 
 #         - value of length and print ("Your word is {x} letters long!")
 #         - then an input(prompt("Please enter a single letter to see if it is in the word."))
@@ -38,12 +39,6 @@
 # 9) other needs
 #     - no PEP8 warning or errors
 
-
-# 1) list of words = "words.txt"
-#     - read file
-#     - create dictionary
-#     - create value of length per key
-#     - add value for length per key in dictionary
 
 import string, random
 
@@ -97,31 +92,52 @@ def dict_with_length(words):
 new_dictionary = dict_with_length(unique_words(file))
 
 level = input("Which level would you like to play? ")
+valid_level = ["easy", "normal", "hard"]
+# age = int(age_as_a_string)
+if level in valid_level:
+    print(f"You chose {level}.")
+else:
+    print("Try again!")
 
-# def game_level(input):
-#     level = ""
-#     level = input("Which level would you like to play? ")
-#     while level = "":
-#         if level == "":
-#             print("Try again!")
-#         elif:
-#             level 
+
+        
 
 # pulls list of words from dictionary that have values
 # listOfKeys = [key  for (key, value) in new_dictionary.items() if value == 9]
-listOfKeys = [key  for (key, value) in new_dictionary.items() if value == 9]
+listOfKeys = [key  for (key, value) in new_dictionary.items() if 4 < value < 6]
 
 random_word = random.choice(listOfKeys)
-
 print(random_word)
-# print(f"Your word is {listOfKeys} letters." )
 print(level)
 
+word = random_word
+
+guesses = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
+            "n", "o", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+[letter if letter in guesses else "_" for letter in word]
+
+current_guesses = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
+            "n", "o", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+
+def display_letter(letter, guesses):
+    """
+    Conditionally display a letter. If the letter is already in
+    the list `guesses`, then return it. Otherwise, return "_".
+    """
+    if letter in guesses:
+        return letter
+    else:
+        return "_"
+
+print([display_letter(letter, current_guesses) for letter in word])
+
+
+
+
+# print(f"Your word is {listOfKeys} letters." )
 # print(dict_with_length(unique_words(file))
 # print(new_dictionary.items())
 # print(level.lower())
-
-
 # pulls list of keys
 # print(list(dictOfWords.values()), )
 
