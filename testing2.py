@@ -1,54 +1,84 @@
-random_word = str("scuse")
+# importing modules needed for fuctions.
+import string
+import random
 
-word = random_word
+print("""\nWelcome to Mystery Word!\n\nMy name is Jarvis and I will be selecting a random word for you to guess.\nYou will have a total of 8 guesses.\nIf you do not guess within 8 guesses, the round will be over and you have a chance to try another random word, or quit the game.\nNow that we are ready to start, I need you to pick the level: Easy, Normal or Hard.\n""")
 
-def unique_chars(word):
-    """Given a string, get all the unique characters."""
-    seen_chars = []
-    for char in word:
-        seen_chars += (char)
-    return seen_chars
+# assigned file as a variable
+file = "words.txt"
 
-print(f"This is the word in an a new string to guess against: {unique_chars(word)}")
+# Takes a list from a file and removes bad characters
+def new_list_words(text_file):
+    """take a file, get unique words, turn them into all lowercase, no puncs, replace all whitespace with 1space. """
 
-index_to_match = unique_chars(word)
+    text_file = text_file.casefold()
+    valid_chars = string.ascii_letters + string.whitespace + string.digits
 
-print(f"this is your index to match: {index_to_match}")
+    # remove punc
+    new_text = ""
+    for char in text_file:
+        if char in valid_chars:
+            new_text += char
 
-valid_letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-                   "n", "o", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    text_file = new_text
+    text_file = text_file.replace("\n", " ")
+    return text_file
 
-keep_going = False
-letter = str(input("What letter would you like to use? "))
-if letter not in valid_letters:
-    print("Try again, and only enter 1 letter!")
-else:
-    letter = letter.casefold()
+# creates list of strings of words:
+def unique_words(file):
+    """Read in `file` and print out the frequency of words in that file."""
 
-print(f"You picked letter {letter}!")
-print("Let's see if this matches any letter in the word.")
+    with open(file) as file:
+        text_file = file.read()
 
-guesses = letter
+    text_file = new_list_words(text_file)
+    words = []
+    for word in text_file.split(" "):
+        if word != '':
+            words.append(word)
 
-print([letter if letter in guesses else "_" for letter in word])
+    return words
 
-new_word = [letter if letter in guesses else "_" for letter in word]
+# creates dictionary with length
+def dict_with_length(words):
+    """take list of words and count characters"""
+    word_length = {}
+    for word in words:
+        if word in word_length:
+            word_length[word] = word_length[word] + len(word)
+        else:
+            word_length[word] = len(word)
+    return word_length
 
-current_guesses = letter
 
-def display_letter(letter, guesses):
-    """
-    Conditionally display a letter. If the letter is already in
-    the list `guesses`, then return it. Otherwise, return "_".
-    """
-    if letter in guesses:
-        return letter
+def is_valid_level(input):
+    valid_level = False
+    valid_levels = ["easy", "normal", "hard"]  
+    while valid_level is False:
+        level = input("Which level would you like to play? ")
+        if len(level) >= 1 and level != "" and level.casefold() in valid_levels:
+            level = level.casefold()
+            return level.casefold()
+        elif (SyntaxError, ValueError):
+            print("You didn't enter a valid level, please enter: Easy, Normal or Hard.")
+        else:
+            is_valid_level()
+
+level = is_valid_level(input)
+
+def range_level(level):  
+    listOfKeys = []
+    if level == "easy":
+        listOfKeys = [key  for (key, value) in dict_with_length(unique_words(file)).items() if 4 <= value <= 6]
+        return listOfKeys
+    elif level == "normal":
+        listOfKeys = [key  for (key, value) in dict_with_length(unique_words(file)).items() if 6 <= value <= 8]
+        return listOfKeys
     else:
-        return "_"
-
-print([display_letter(letter, current_guesses) for letter in word])
-
+        listOfKeys = [key  for (key, value) in dict_with_length(unique_words(file)).items() if value >= 8]
+        return listOfKeys
 
 
 
-
+random_word = random.choice(range_level(level))
+print(f"'{random_word}' is the random word.")
