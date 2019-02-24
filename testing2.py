@@ -50,7 +50,7 @@ def dict_with_length(words):
             word_length[word] = len(word)
     return word_length
 
-
+# user picks level.
 def is_valid_level(input):
     valid_level = False
     valid_levels = ["easy", "normal", "hard"]  
@@ -78,7 +78,74 @@ def range_level(level):
         listOfKeys = [key  for (key, value) in dict_with_length(unique_words(file)).items() if value >= 8]
         return listOfKeys
 
+random_word = random.choice(range_level(input))
+# print(f"'{random_word}' is the random word.")
 
 
-random_word = random.choice(range_level(level))
-print(f"'{random_word}' is the random word.")
+print(f"\nThe word has {len(random_word)} letters in it.\n")
+print(random_word)
+
+
+def unique_chars(random_word):
+    """Given a string, get all the unique characters."""
+    seen_chars = []
+    for char in random_word:
+        seen_chars += (char)
+    return seen_chars
+
+
+random_word_string = unique_chars(random_word)
+
+
+valid_letters = string.ascii_letters
+keep_going = False
+pending_word = []
+previous_letter = ""
+
+
+guess_count = 0
+guesses = []
+valid_guess = False
+while valid_guess is False:
+    letter = input("What letter would you like to try?  ")
+    valid_letter = False
+    while valid_letter is False:   
+        if letter.casefold() in valid_letters and letter not "":
+            letter = letter.casefold()
+            valid_letter = True
+        elif letter is "":
+            print("You did not enter a letter, try again. ")
+        else:
+            print("Try again!")
+
+    if letter.casefold() in random_word_string and letter not in guesses and guess_count < 7:
+        pending_word = [letter if letter in guesses else "_" for letter in word]
+        guesses.append(letter.casefold())
+        guess_count += 0
+        previous_letter = letter.casefold()
+        valid_guess = True
+        print([letter if letter in guesses else "_" for letter in word])
+        print(f"\nGuesses available: {8 - guess_count}.\n")
+        print(guesses)
+    elif letter.casefold() not in random_word_string and letter not in guesses and guess_count < 7:
+        guesses.append(letter.casefold())
+        guess_count += 1
+        previous_letter = letter.casefold()
+        valid_guess = True
+        print(f"\nGuesses available: {8 - guess_count}.\n")
+        print(guesses)
+    elif letter in guesses and guess_count < 7:
+        print("You have already tried that letter, try another one.")
+        print(guesses)
+    else:
+        keep_going = True
+        print("Too many tries!")
+        print(f"\nThe word was '{word}'.\n")
+
+if [letter if letter in guesses else "_" for letter in word] != random_word_string:
+    print("Guess again.")
+else: 
+    keep_going = True
+    print("You win!") 
+
+
